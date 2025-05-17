@@ -1,8 +1,8 @@
-export default function InputText({ label, name, placeholder }) {
+export default function InputText({ value, onChange, label, name, placeholder }) {
   return (
     <>
       <label htmlFor="fullName">{label}</label>
-      <input name={name} type="text" placeholder={placeholder} />
+      <input value={value} onChange={onChange} name={name} type="text" placeholder={placeholder} />
     </>
   );
 }
