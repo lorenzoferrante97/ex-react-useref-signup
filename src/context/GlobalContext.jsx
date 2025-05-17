@@ -10,6 +10,7 @@ const GlobalProvider = ({ children }) => {
   const [bio, setBio] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [isPswValid, setIsPswValid] = useState(true);
 
   // validation symbols
   const letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -19,7 +20,6 @@ const GlobalProvider = ({ children }) => {
   // validate char function
   const validateString = (string) => {
     for (const char of string) {
-      console.log('char: ', char);
       if (!letters.includes(char.toLowerCase())) {
         if (!numbers.includes(char)) {
           return false;
@@ -28,6 +28,30 @@ const GlobalProvider = ({ children }) => {
     }
 
     return true;
+  };
+
+  // validate char function
+  const validatePsw = (string) => {
+    let isLetter,
+      isNumber,
+      isSymbol = false;
+    for (const char of string) {
+      if (!isLetter) {
+        letters.includes(char.toLowerCase()) && (isLetter = true);
+      }
+      if (!isNumber) {
+        numbers.includes(char) && (isNumber = true);
+      }
+      if (!isSymbol) {
+        symbols.includes(char) && (isSymbol = true);
+      }
+    }
+
+    if (isLetter && isNumber && isSymbol) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   // debounce
@@ -83,7 +107,19 @@ const GlobalProvider = ({ children }) => {
     []
   );
 
-  const value = { handleInput, fullName, username, password, spec, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername };
+  // username validation
+  const validatePassword = useCallback(
+    debounce((psw) => {
+      // console.log('isStringValid: ', isStringValid);
+      const isPswValid = validatePsw(psw);
+      // console.log('isPswValid (context): ', isPswValid);
+
+      psw.length < 8 || isPswValid == false ? setIsPswValid(false) : setIsPswValid(true);
+    }, 500),
+    []
+  );
+
+  const value = { handleInput, fullName, username, password, spec, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername, validatePassword, isPswValid };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

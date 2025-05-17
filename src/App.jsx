@@ -8,7 +8,7 @@ import Select from './components/Select';
 function App() {
   const specializzazioni = ['Frontend', 'Backend', 'Full Stack'];
 
-  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername } = useGlobalContext();
+  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername, validatePassword, isPswValid } = useGlobalContext();
 
   const inputs = { fullName, username, password, spec, expYears, bio };
 
@@ -33,11 +33,22 @@ function App() {
                 placeholder="Franco.Forte97"
               ></InputText>
               {/* {console.log('isUsernameValid: ', isUsernameValid)} */}
-              {!isUsernameValid && <p>L'username deve avere almeno 6 caratteri e devono essere lettere, numeri o simboli consentiti</p>}
+              {!isUsernameValid && <p>L'username deve avere almeno 6 caratteri e devono essere lettere o numeri</p>}
             </div>
             <div className="input-box">
               <label htmlFor="password">Password</label>
-              <input value={password} onChange={(e) => handleInput(e, 'password')} name="password" type="password" min={8} />
+              <input
+                value={password}
+                onChange={(e) => {
+                  handleInput(e, 'password');
+                  validatePassword(e.target.value);
+                }}
+                name="password"
+                type="password"
+                min={8}
+              />
+              {console.log('isPswValid', isPswValid)}
+              {!isPswValid && <p>La password deve avere minimo 8 caratteri e almeno una lettera, un numero e un simbolo</p>}
             </div>
           </section>
           <section>
