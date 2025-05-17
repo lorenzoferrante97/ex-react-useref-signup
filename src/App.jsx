@@ -8,7 +8,7 @@ import Select from './components/Select';
 function App() {
   const specializzazioni = ['Frontend', 'Backend', 'Full Stack'];
 
-  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation } = useGlobalContext();
+  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername } = useGlobalContext();
 
   const inputs = { fullName, username, password, spec, expYears, bio };
 
@@ -22,7 +22,18 @@ function App() {
               <InputText value={fullName} onChange={(e) => handleInput(e, 'fullname')} name="fullName" label="Nome Completo" placeholder="Franco Forte"></InputText>
             </div>
             <div className="input-box">
-              <InputText value={username} onChange={(e) => handleInput(e, 'username')} name="username" label="Username" placeholder="Franco.Forte97"></InputText>
+              <InputText
+                value={username}
+                onChange={(e) => {
+                  handleInput(e, 'username');
+                  validateUsername(e.target.value);
+                }}
+                name="username"
+                label="Username"
+                placeholder="Franco.Forte97"
+              ></InputText>
+              {/* {console.log('isUsernameValid: ', isUsernameValid)} */}
+              {!isUsernameValid && <p>L'username deve avere almeno 6 caratteri e devono essere lettere, numeri o simboli consentiti</p>}
             </div>
             <div className="input-box">
               <label htmlFor="password">Password</label>
