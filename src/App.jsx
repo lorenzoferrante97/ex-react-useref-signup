@@ -32,8 +32,8 @@ function App() {
                 label="Username"
                 placeholder="Franco.Forte97"
               ></InputText>
-              {/* {console.log('isUsernameValid: ', isUsernameValid)} */}
-              {!isUsernameValid && <p>L'username deve avere almeno 6 caratteri e devono essere lettere o numeri</p>}
+
+              {!isUsernameValid ? <p className="error">L'username deve avere almeno 6 caratteri e devono essere lettere o numeri</p> : isUsernameValid && username != '' && <p className="success">Corretto!</p>}
             </div>
             <div className="input-box">
               <label htmlFor="password">Password</label>
@@ -48,7 +48,8 @@ function App() {
                 min={8}
               />
               {console.log('isPswValid', isPswValid)}
-              {!isPswValid && <p>La password deve avere minimo 8 caratteri e almeno una lettera, un numero e un simbolo</p>}
+
+              {!isPswValid ? <p className="error">La password deve avere minimo 8 caratteri e almeno una lettera, un numero e un simbolo</p> : isPswValid && password != '' && <p className="success">Corretto!</p>}
             </div>
           </section>
           <section>
@@ -81,7 +82,8 @@ function App() {
                 }}
                 name="bio"
               ></textarea>
-              {!isBioValid && <p>La bio deve avere tra i 100 e i 1000 caratteri</p>}
+
+              {!isBioValid ? <p className="error">La bio deve avere tra i 100 e i 1000 caratteri</p> : isBioValid && bio != '' && <p className="success">Corretto!</p>}
             </div>
           </section>
           <section>
