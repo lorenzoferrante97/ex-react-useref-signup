@@ -1,11 +1,14 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useRef } from 'react';
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [spec, setSpec] = useState('');
+  // const [spec, setSpec] = useState('');
+
+  const specRef = useRef('default');
+
   const [expYears, setExpYears] = useState('');
   const [bio, setBio] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
@@ -78,7 +81,9 @@ const GlobalProvider = ({ children }) => {
         break;
       case 'spec':
         // console.log(e.target.value);
-        setSpec(e.target.value);
+        // setSpec(e.target.value);
+        specRef.current = e.target.value;
+        console.log('specRef: ', specRef.current);
         break;
       case 'expYears':
         setExpYears(e.target.value);
@@ -93,9 +98,10 @@ const GlobalProvider = ({ children }) => {
   const formValidation = (e, inputs) => {
     e.preventDefault();
 
-    const { fullName, username, password, spec, expYears, bio } = inputs;
+    const { fullName, username, password, specRef, expYears, bio } = inputs;
+    console.log('inputs: ', inputs);
 
-    (fullName.length || username.length || password.length || expYears.length || bio.length) == 0 || !spec ? expYears < 0 && setIsFormValid(false) : console.table(inputs);
+    (fullName.length || username.length || password.length || expYears.length || bio.length) == 0 || specRef.current == 'default' || expYears < 0 ? setIsFormValid(false) : console.table(inputs);
   };
 
   // username validation
@@ -128,7 +134,7 @@ const GlobalProvider = ({ children }) => {
     []
   );
 
-  const value = { handleInput, fullName, username, password, spec, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername, validatePassword, isPswValid, validateBio, isBioValid };
+  const value = { handleInput, fullName, username, password, specRef, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername, validatePassword, isPswValid, validateBio, isBioValid };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

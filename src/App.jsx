@@ -8,9 +8,9 @@ import Select from './components/Select';
 function App() {
   const specializzazioni = ['Frontend', 'Backend', 'Full Stack'];
 
-  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername, validatePassword, isPswValid, validateBio, isBioValid } = useGlobalContext();
+  const { handleInput, fullName, username, password, specRef, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername, validatePassword, isPswValid, validateBio, isBioValid } = useGlobalContext();
 
-  const inputs = { fullName, username, password, spec, expYears, bio };
+  const inputs = { fullName, username, password, specRef, expYears, bio };
 
   return (
     <>
@@ -47,7 +47,6 @@ function App() {
                 type="password"
                 min={8}
               />
-              {console.log('isPswValid', isPswValid)}
 
               {!isPswValid ? <p className="error">La password deve avere minimo 8 caratteri e almeno una lettera, un numero e un simbolo</p> : isPswValid && password != '' && <p className="success">Corretto!</p>}
             </div>
@@ -57,7 +56,7 @@ function App() {
               <div className="input-box">
                 <label htmlFor="specializzazioni">Specializzazioni</label>
                 <Select
-                  value={spec}
+                  value={specRef.current}
                   onChange={(e) => {
                     handleInput(e, 'spec');
                   }}
