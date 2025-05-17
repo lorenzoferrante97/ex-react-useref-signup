@@ -8,13 +8,15 @@ import Select from './components/Select';
 function App() {
   const specializzazioni = ['Frontend', 'Backend', 'Full Stack'];
 
-  const { handleInput, fullName, username, password, spec, expYears, bio } = useGlobalContext();
+  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation } = useGlobalContext();
+
+  const inputs = { fullName, username, password, spec, expYears, bio };
 
   return (
     <>
       <main id="main">
         <h1>Iscriviti</h1>
-        <form className="form">
+        <form onSubmit={(e) => formValidation(e, inputs)} className="form">
           <section>
             <div className="input-box">
               <InputText value={fullName} onChange={(e) => handleInput(e, 'fullname')} name="fullName" label="Nome Completo" placeholder="Franco Forte"></InputText>
@@ -51,6 +53,10 @@ function App() {
               <label htmlFor="bio">Una breve introduzione di te</label>
               <textarea value={bio} onChange={(e) => handleInput(e, 'bio')} name="bio"></textarea>
             </div>
+          </section>
+          <section>
+            <button type="submit">Invia dati</button>
+            <div>{!isFormValid && <p>Necessario compilare tutti i campi del form per proseguire</p>}</div>
           </section>
         </form>
       </main>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useRef } from 'react';
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
@@ -8,6 +8,7 @@ const GlobalProvider = ({ children }) => {
   const [spec, setSpec] = useState('');
   const [expYears, setExpYears] = useState('');
   const [bio, setBio] = useState('');
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const handleInput = (e, type) => {
     switch (type) {
@@ -33,7 +34,20 @@ const GlobalProvider = ({ children }) => {
     }
   };
 
-  const value = { handleInput, fullName, username, password, spec, expYears, bio };
+  // form validation
+  const formValidation = (e, inputs) => {
+    e.preventDefault();
+
+    console.log('sono nella validazione');
+
+    const { fullName, username, password, spec, expYears, bio } = inputs;
+
+    console.log('spec: ', spec);
+
+    (fullName.length || username.length || password.length || expYears.length || bio.length) == 0 || !spec ? expYears < 0 && setIsFormValid(false) : null;
+  };
+
+  const value = { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };
