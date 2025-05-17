@@ -11,6 +11,7 @@ const GlobalProvider = ({ children }) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [isUsernameValid, setIsUsernameValid] = useState(true);
   const [isPswValid, setIsPswValid] = useState(true);
+  const [isBioValid, setIsBioValid] = useState(true);
 
   // validation symbols
   const letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -107,7 +108,7 @@ const GlobalProvider = ({ children }) => {
     []
   );
 
-  // username validation
+  // psw validation
   const validatePassword = useCallback(
     debounce((psw) => {
       // console.log('isStringValid: ', isStringValid);
@@ -119,7 +120,15 @@ const GlobalProvider = ({ children }) => {
     []
   );
 
-  const value = { handleInput, fullName, username, password, spec, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername, validatePassword, isPswValid };
+  // bio validation
+  const validateBio = useCallback(
+    debounce((bio) => {
+      bio.trim().length < 100 || bio.trim().length > 1000 ? setIsBioValid(false) : setIsBioValid(true);
+    }, 500),
+    []
+  );
+
+  const value = { handleInput, fullName, username, password, spec, expYears, bio, isUsernameValid, isFormValid, formValidation, validateUsername, validatePassword, isPswValid, validateBio, isBioValid };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

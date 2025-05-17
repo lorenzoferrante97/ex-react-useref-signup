@@ -8,7 +8,7 @@ import Select from './components/Select';
 function App() {
   const specializzazioni = ['Frontend', 'Backend', 'Full Stack'];
 
-  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername, validatePassword, isPswValid } = useGlobalContext();
+  const { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation, isUsernameValid, validateUsername, validatePassword, isPswValid, validateBio, isBioValid } = useGlobalContext();
 
   const inputs = { fullName, username, password, spec, expYears, bio };
 
@@ -73,7 +73,15 @@ function App() {
           <section>
             <div className="input-box">
               <label htmlFor="bio">Una breve introduzione di te</label>
-              <textarea value={bio} onChange={(e) => handleInput(e, 'bio')} name="bio"></textarea>
+              <textarea
+                value={bio}
+                onChange={(e) => {
+                  handleInput(e, 'bio');
+                  validateBio(e.target.value);
+                }}
+                name="bio"
+              ></textarea>
+              {!isBioValid && <p>La bio deve avere tra i 100 e i 1000 caratteri</p>}
             </div>
           </section>
           <section>
