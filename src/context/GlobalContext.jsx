@@ -38,13 +38,9 @@ const GlobalProvider = ({ children }) => {
   const formValidation = (e, inputs) => {
     e.preventDefault();
 
-    console.log('sono nella validazione');
-
     const { fullName, username, password, spec, expYears, bio } = inputs;
 
-    console.log('spec: ', spec);
-
-    (fullName.length || username.length || password.length || expYears.length || bio.length) == 0 || !spec ? expYears < 0 && setIsFormValid(false) : null;
+    (fullName.length || username.length || password.length || expYears.length || bio.length) == 0 || !spec ? expYears < 0 && setIsFormValid(false) : console.table(inputs);
   };
 
   const value = { handleInput, fullName, username, password, spec, expYears, bio, isFormValid, formValidation };
